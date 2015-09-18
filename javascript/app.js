@@ -14,34 +14,9 @@
   ];
   var current_document = all_documents[0];
 
-  var heatMapFunc = function ($http) {
-    console.log("here!");
-    this.heatMap = {content: null};
-
-    $http.get(current_document.heatmap_src).success(function(data) {
-      this.heatMap.content = data;
-    });
-    console.log(this.heatMap);
-
-    return this.heatMap;
-  };
-
-  var MyFunc = function() {
-
-			this.name = "default name";
-
-			this.$get = function() {
-				this.name = "new name"
-				return "Hello from MyFunc.$get(). this.name = " + this.name;
-			};
-
-			return "Hello from MyFunc(). this.name = " + this.name;
-		};
-
-  // app.factory('heatMap', MyFunc);
   app.factory('heatMap', ['$http', '$rootScope', function($http, $scope) {
     return {
-        heatmap_data: function() {
+        heatmap_data: (function() {
             if ($scope.data) {
                 return $scope.data;
             }
@@ -49,10 +24,20 @@
             $http.get('resources/buckley_heatmap.json')
               .success(function(data) {
                   $scope.data = data;
-                  console.log($scope.data);
+                  // console.log(Math.max(data.values()));
+                  $scope.data_max = 0;
+                  for(key in data) {
+                    if($scope.data_max < data[key])
+                      $scope.data_max = data[key];
+                  }
+                  console.log($scope.data_max);
+
                   return data;
               });
-        }
+
+              console.log($scope.data);
+            return $scope.data;
+        })
     }
   }]);
 
@@ -66,8 +51,6 @@
         var arr = [];
         for(var i = 1; i <= maxPage; i++) {  arr.push(i);  }
         $scope.pageNums = arr;
-        $scope.heatmap = heatMap.heatmap_data;
-        console.log($scope.heatmap.heatmap_data);
       },
       controllerAs: 'textCtrl'
     }
@@ -90,9 +73,11 @@
     function($scope, $http, smoothScroll, heatMap) {
       var docCtrl = this;
       var info = heatMap;
-      var hm = heatMap.heatmap_data;
+      heatMap.heatmap_data();
 
-      console.log(hm);
+
+
+      console.log($scope.data);
 
       this.reAnchor = function(page_num) {
         var elem = $("span.page_number[data-page='" + page_num + "']")[0];

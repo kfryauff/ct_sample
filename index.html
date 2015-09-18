@@ -19,16 +19,20 @@
   </head>
   <body ng-controller="documentCtrl as docCtrl">
     <div class="container-fluid">
-      <div class="row">
+      <!-- <div class="row"> -->
+
         <div id="heatmap" class="col-xs-2 col-md-1">
               <div id="itemheat"
                 ng-click="docCtrl.reAnchor(pg)" ng-repeat="pg in pageNums"
-                data-toggle="tooltip" data-placement="right"
-                title="{{pg}}: {{docCtrl.mainItem(pg.to_s)}}" tooltip></div>
+                style="opacity: {{((data[pg]+1) || 1)/(data_max+1)}}"
+                data-toggle="tooltip" data-placement="right" data-container="body"
+                title="Page {{pg}}: {{data[pg] || 0}} citations" tooltip></div>
+                {{data_max}}
         </div>
         <div id="document_text" class="col-xs-10 col-md-11">
           <span class="page_number" data-page="1"></span>
           <document-text></document-text>
+          <div class="clearfix"></div>
         </div>
       </div>
     </div>

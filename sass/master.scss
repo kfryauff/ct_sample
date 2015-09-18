@@ -3,39 +3,42 @@
   height: 10px;
 }
 
+// init variables
+
+
 body {
   font-family: 'Droid Serif', Georgia, serif;
 }
 
 .tooltip {
-    // position: relative;
-    // display: inline-block;
-    // margin: 10px 20px;
-    // opacity: 1;
-    
 }
 
 #heatmap {
   height: 100%;
   position: fixed;
-  width: 50px;
+  width: 30px;
   border-left: 1px gray solid;
   border-right: 1px gray solid;
-  margin-left: 5px;
-  padding: 0;
-  a {
-    background-color: blue;
-    width: 100%;
-
-  }
+  margin-left: 25px;
+  padding: 10px 0;
+  background: white;
   #itemheat {
     width: 100%;
     margin: 0;
     padding: -15px 0;
-    border: 1px red solid;
-    height: .5px;
-
+    // border: .1px red solid;
+    height: .5vh;
+    background-color: blue;
     margin: .75px 0;
+    transition: all .2s ease-in-out;
+    &:hover {
+      border: 1px blue solid;
+      transform: scale(1.5);
+    }
+    &:active {
+      height: .3vh;
+      border: 2px black solid;
+    }
   }
 }
 
@@ -53,12 +56,15 @@ body {
 // }
 
 #document_text {
-  margin-left: 80px;
+  margin-left: 75px;
+  padding: 10px 50px 0px;
+  z-index: 10;
+  overflow: auto;
 }
 
 .page_number_margin {
   position: absolute;
-  left: -10px;
+  left: 0px;
   margin-top: 0;
   color: gray;
   font-family: cursive;
@@ -66,4 +72,9 @@ body {
 
 .page_number {
   color: gray;
+}
+
+.clearfix {
+  zoom: 1;
+  height: 100vh;
 }
